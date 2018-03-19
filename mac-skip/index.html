@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <title>mac桌面</title>
+    <link rel='Shortcut Icon' type='image/x-icon' href='./img/apple.ico'>
+    <script type="text/javascript" src="../js/jquery-2.2.4.min.js"></script>
+    <link href="../css/animate.css" rel="stylesheet">
+    <script type="text/javascript" src="../component/layer-v3.0.3/layer/layer.js"></script>
+    <link rel="stylesheet" href="../component/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link href="./css/default.css" rel="stylesheet">
+    <script type="text/javascript" src="../js/win10.js"></script>
+    <style>
+        * {
+            font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+        }
+        /*磁贴自定义样式*/
+        .win10-block-content-text {
+            line-height: 44px;
+            text-align: center;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        Win10.onReady(function () {
+            //设置壁纸
+            Win10.setBgUrl({
+                main:'./img/wallpapers/main.jpg',
+                mobile:'./img/wallpapers/mobile.jpg',
+            });
+
+            Win10.setAnimated([
+                'animated flip',
+                'animated bounceIn',
+            ], 0.01);
+			
+            setTimeout(function () {
+                Win10.newMsg('推荐全屏', '按下F11全屏以达到最佳视觉效果(点击进入)',function () {
+                    Win10.enableFullScreen();
+                })
+            }, 1500);
+
+            setTimeout(function () {
+                layer.open({
+                    type: 2,
+                    title: '最新资讯',
+                    area: ['300px', '380px'],
+                    shade:0,
+					skin:'win10-open-iframe',
+                    offset: 'rb',
+                    content: '//win10ui.yuri2.cn/src/broadcast.html'
+                })
+            },2000)
+			
+			
+			//重新写mac时间
+			$("#win10_btn_time").hide();
+			var myDate = new Date();
+		   /* var year=myDate.getFullYear();
+			var week=myDate.getDay();
+			var month=myDate.getMonth()+1;
+			var date=myDate.getDate();
+			var hours=myDate.getHours();
+			var mins=myDate.getMinutes();if (mins<10){mins='0'+mins} */
+			//$("#win10_btn_time").html(year+'/'+month+'/'+date+hours+':'+mins);
+			var week = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")[myDate.getDay()];
+			var hour=myDate.getHours();
+			var mins=myDate.getMinutes();if (mins<10){mins='0'+mins}
+			if (hour >= 0 && hour < 6) {
+				hours='凌晨'+hour;
+			}else if (hour >= 6 && hour < 8) {
+				hours='早上'+hour;
+			 } else if (hour >= 8 && hour < 11) {
+				hours='上午'+hour;
+			 } else if (hour >= 11 && hour < 13) {
+				hours='中午'+hour;
+			 } else if (hour >= 13 && hour < 18) {
+			   hours='下午'+hour;
+			 } else {
+			   hours='晚上'+hour;
+			 }
+			$("#win10_btn_time").after('<div class="btn">'+week+hours+':'+mins+'</div>');
+			
+			//渲染dock
+			var cell_width=74;
+			var width=document.body.clientWidth ;
+			var docks=$("#footer .dock li");
+			var max_num=parseInt(width/cell_width)-1;
+			console.log(width,docks.length,max_num);
+			for (var i = 0; i < docks.length; i++) {
+				if (i>max_num) {
+					docks.eq(i).css('display','none');
+				}else{
+					docks.eq(i).css('display','list-item');
+				}		
+			}
+			
+			//窗口改大小，重新渲染
+			$(window).resize(function() {
+				var cell_width=74;
+				var width=document.body.clientWidth ;
+				var docks=$("#footer .dock li");
+				var max_num=parseInt(width/cell_width)-1;
+				console.log(width,docks.length,max_num);
+				for (var i = 0; i < docks.length; i++) {
+					if (i>max_num) {
+						docks.eq(i).css('display','none');
+					}else{
+						docks.eq(i).css('display','list-item');
+					}		
+				}
+			});
+			
+        });
+		
+		Win10.renderDocks=function () {
+			var cell_width=74;
+			var width=document.body.clientWidth ;
+			var docks=$("#footer .dock li");
+			var max_num=parseInt(width/cell_width)-1;
+			console.log(width,docks.length,max_num);
+			for (var i = 0; i < docks.length; i++) {
+				if (i>max_num) {
+					docks.eq(i).css('display','none');
+				}else{
+					docks.eq(i).css('display','list-item');
+				}		
+			}
+		};
+		
+		Win10.renderShortcuts=function () {
+			var h=parseInt(($("#win10 #win10-shortcuts")[0].offsetHeight-60)/90);
+			var x=0,y=0;
+			$("#win10 #win10-shortcuts .shortcut").each(function () {
+				$(this).css({
+					left:x*82+10,
+					top:y*90+10,
+				});
+				y++;
+				if(y>=h){
+					y=0;
+					x++;
+				}
+			});
+		},
+		
+		Win10.aboutUs=function () {
+        //关于我们
+			layer.open({
+				type: 1,
+				closeBtn: 1, //不显示关闭按钮
+				anim: 2,
+				skin: 'win10-open-iframe',
+				title: 'WinUI mac皮肤 '+this._version,
+				shadeClose: true, //开启遮罩关闭
+				area: ['320px', '200px'], //宽高
+				content: '<div style="padding: 10px;font-size: 12px">' +
+				'<p>支持组件:layer、jquery、animated.css、font-awesome</p>' +
+				'<p>本皮肤由木子的忧伤、尤里2号©版权所有</p>' +
+				'<p>作者邮箱:1099438829@qq.com</p>' +
+				'</div>'
+			});
+		},
+		
+		
+		Win10.openUrl=function (url, title,areaAndOffset) {
+			if(this._countTask>12){
+				layer.msg("您打开的太多了，歇会儿吧~");
+				return false;
+			}else{
+				this._countTask++;
+			}
+			url=url.replace(/(^\s*)|(\s*$)/g, "");
+			var preg=/^(https?:\/\/|\.\.?\/|\/\/?)/;
+			if(!preg.test(url)){
+				url='http://'+url;
+			}
+			if (!url) {
+				url = '//yuri2.cn';
+			}
+			if (!title) {
+				title = url;
+			}
+			var area,offset;
+			if (this.isSmallScreen() || areaAndOffset==='max') {
+				area = ['100%', (document.body.clientHeight - 30) + 'px'];
+				offset = ['30px', '0'];
+			}else if(typeof areaAndOffset ==='object'){
+				area=areaAndOffset[0];
+				offset=areaAndOffset[1];
+			}else {
+				area = ['80%', '80%'];
+				var topset, leftset;
+				topset = parseInt($(window).height());
+				topset = (topset - (topset * 0.8)) / 2 - 30;
+				leftset = parseInt($(window).width());
+				leftset = (leftset - (leftset * 0.8)) / 2 - 120;
+				offset = [Math.round((this._countTask % 10 * 20) + topset) + 'px', Math.round((this._countTask % 10 * 20 + 100) + leftset) + 'px'];
+			}
+			var index = layer.open({
+				type: 2,
+				shadeClose: true,
+				shade: false,
+				maxmin: true, //开启最大化最小化按钮
+				title: title,
+				content: url,
+				area: area,
+				offset: offset,
+				isOutAnim: false,
+				skin:'win10-open-iframe',
+				cancel: function (index, layero) {
+					$("#win10_" + index).remove();
+					Win10._checkTop();
+					Win10._countTask--;//回退countTask数
+					Win10._renderBar();
+				},
+				min: function (layero) {
+					layero.hide();
+					$("#win10_" + index).removeClass('show');
+					Win10._checkTop();
+					return false;
+				},
+				full:function (layero) {
+					layero.find('.layui-layer-min').css('display','inline-block');
+					layero_opened.css('margin-top',31);
+				},
+			});
+			$('#win10_btn_group_middle .btn.active').removeClass('active');
+			var btn = $('<div id="win10_' + index + '" index="' + index + '" class="btn show active"><div class="btn_title">' + title + '</div><div class="btn_close fa fa-close"></div></div>');
+			var layero_opened=Win10.getLayeroByIndex(index);
+			layero_opened.css('z-index',Win10._countTask+813);
+			Win10._settop(layero_opened);
+			//重新定义菜单布局
+			//layero_opened.find('.layui-layer-setwin').prepend('<a class="win10-btn-change-url" index="' + index + '" href="#"><span class="fa fa-chain"></span></a><a class="win10-btn-refresh" index="' + index + '" href="#"><span class="fa fa-refresh"></span></a>');
+			layero_opened.find('.layui-layer-setwin').prepend('<a class="win10-btn-refresh" index="' + index + '" href="#"></a>');
+			layero_opened.find('.layui-layer-setwin .layui-layer-max').click(function () {
+				setTimeout(function () {
+					var height=layero_opened.css('height');
+					height=parseInt(height.replace('px',''));
+					if (height>=document.body.clientHeight){
+					   layero_opened.css('height',height-30);
+					   layero_opened.find('.layui-layer-content').css('height',height-72);
+					   layero_opened.find('.layui-layer-content iframe').css('height',height-72);
+					}
+				},300);
+
+			});
+			$("#win10_btn_group_middle").append(btn);
+			Win10._renderBar();
+			btn.click(function () {
+				var index = $(this).attr('index');
+				var layero = Win10.getLayeroByIndex(index);
+				var settop=function () {
+					//置顶窗口
+					var max_zindex=0;
+					$(".win10-open-iframe").each(function () {
+						z=parseInt($(this).css('z-index'));
+						$(this).css('z-index',z-1);
+						if(z>max_zindex){max_zindex=z;}
+					});
+					layero.css('z-index',max_zindex+1);
+				};
+				if ($(this).hasClass('show')) {
+					if($(this).hasClass('active')){
+						$(this).removeClass('active');
+						$(this).removeClass('show');
+						Win10._checkTop();
+						layero.hide();
+					}else{
+						$('#win10_btn_group_middle .btn.active').removeClass('active');
+						$(this).addClass('active');
+						Win10._settop(layero);
+					}
+				} else {
+					$(this).addClass('show');
+					$('#win10_btn_group_middle .btn.active').removeClass('active');
+					$(this).addClass('active');
+					Win10._settop(layero);
+					layero.show();
+					// layero.find('.layui-layer-resize').click();
+				}
+			});
+
+
+			Win10._iframeOnClick.track(layero_opened.find('iframe:first')[0], function() {
+				if(Object.getOwnPropertyNames(Win10._iframe_click_lock_children).length===0){
+					Win10._settop(layero_opened);
+					Win10._checkTop();
+				}else{
+					console.log('click locked');
+				}
+			});
+
+			this.menuClose();
+			this.commandCenterClose();
+			return index;
+		};
+    </script>
+	
+	<script>
+	$(function () {
+		
+	})	
+</script>
+</head>
+<body>
+<div id="win10">
+    <div class="desktop">
+        <div id="win10-shortcuts" class="shortcuts-hidden">
+            <div class="shortcut" onclick="Win10.openUrl('http://win10ui.yuri2.cn','<img class=\'icon\' src=\'./img/icon/computer.png\'/>UI官网')">
+                <img class="icon" src="./img/icon/computer.png"/>
+                <div class="title">UI官网</div>
+            </div>
+			<div class="shortcut" onclick="Win10.openUrl('http://win10ui.yuri2.cn','<img class=\'icon\' src=\'./img/icon/trashicon.png\'/>回收站')">
+                <img class="icon" src="./img/icon/trashicon.png"/>
+                <div class="title">回收站</div>
+            </div>
+            <div class="shortcut" onclick="Win10.openUrl('win10ui.yuri2.cn/src/doc.php','<img class=\'icon\' src=\'./img/icon/gamecenter.png\'/>GameCenter')">
+                <img class="icon" src="./img/icon/gamecenter.png"/>
+                <div class="title">GameCenter</div>
+            </div>
+            <div class="shortcut" onclick="window.open('https://github.com/yuri2peter/win10-ui')">
+                <img class="icon" src="./img/icon/icloud.png"/>
+                <div class="title">iCloud</div>
+            </div>
+            <div class="shortcut" onclick="Win10.openUrl('https://www.oschina.net/p/win10-ui','<img class=\'icon\' src=\'./img/icon/maps.png\'/>Map')">
+                <img class="icon" src="./img/icon/maps.png"/>
+                <div class="title">地图</div>
+            </div>
+            <div class="shortcut" onclick="window.open('https://github.com/yuri2peter/win10-ui/archive/master.zip')">
+                <img class="icon" src="./img/icon/prefapp.png"/>
+                <div class="title">设置</div>
+            </div>
+            <div class="shortcut" ondblclick='Win10.openUrl("./maclogin.html","<i class=\"fa fa-user icon black-green\"></i>登录页")'>
+                <i class="fa fa-user icon black-green"></i>
+                <div class="title">登录页（双击）</div>
+            </div>
+        </div>
+    </div>
+    <div id="win10-menu" class="hidden">
+        <div class="list win10-menu-hidden animated animated-slideOutLeft">
+            <div class="item"><i class="icon fa fa-wrench fa-fw"></i><span>API测试</span></div>
+            <div class="sub-item" onclick="Win10.openUrl('./child.html','子页')">父子页沟通</div>
+            <div class="sub-item" onclick="Win10.commandCenterOpen()">打开消息中心</div>
+            <div class="sub-item" onclick="Win10.newMsg('API测试','通过API可以发送消息至消息中心，自定义标题与内容(点击我试试)',function() {alert('click')})">发送带回调的消息</div>
+            <div class="sub-item" onclick="Win10.menuClose()">关闭菜单</div>
+            <div class="item" ><i class="icon fa fa-gavel fa-fw"></i>辅助工具</div>
+            <div class="sub-item" onclick="Win10.openUrl('win10ui.yuri2.cn/src/tools/builder-shortcut.html','图标代码生成器')">桌面图标代码生成器</div>
+            <div class="sub-item" onclick="Win10.openUrl('win10ui.yuri2.cn/src/tools/builder-tile.html','磁贴代码生成器')">磁贴代码生成器</div>
+            <div class="sub-item" onclick="Win10.openUrl('win10ui.yuri2.cn/src/tools/builder-menu.html','菜单代码生成器')">菜单代码生成器</div>
+            <div class="item" onclick="Win10.aboutUs()"><i class="icon fa fa-star fa-fw"></i>关于</div>
+            <div class="item" onclick=" Win10.exit();"><i class="icon fa fa-window-close fa-fw"></i>关闭</div>
+        </div>
+    </div>
+    <div id="win10_command_center" class="hidden_right">
+        <div class="title">
+            <h4 style="float: left">消息中心 </h4>
+            <span id="win10_btn_command_center_clean_all">全部清除</span>
+        </div>
+        <div class="msgs"></div>
+    </div>
+    <div id="win10_task_bar">
+        <div id="win10_btn_group_left" class="btn_group">
+            <div id="win10_btn_win" class="btn"><span class="fa fa-apple"></span></div>
+            <div class="btn" id="win10-btn-browser"><span class="fa fa-safari"></span></div>
+        </div>
+        <div id="win10_btn_group_middle" class="btn_group"></div>
+        <div id="win10_btn_group_right" class="btn_group">
+            <div class="btn" id="win10_btn_time">
+                <!--0:00<br/>-->
+                <!--1993/8/13-->
+            </div>
+            <div class="btn" id="win10_btn_command"><span id="win10-msg-nof" class="fa fa-list-ul"></span></div>
+            <div class="btn" id="win10_btn_show_desktop"></div>
+        </div>
+    </div>
+	<div id="footer">
+        <div class="dock">
+            <ul>
+                <li><a href="#"> <img src="./img/icon/finder.png"></a></li>
+                <li><a onclick="Win10.openUrl('http://win10ui.yuri2.cn','<img class=\'icon\' src=\'./img/icon/computer.png\'/>我的电脑')"> <img src="./img/icon/computer.png"></a></li>
+                <li><a href="#"> <img src="./img/icon/gamecenter.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/icloud.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/prefapp.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/trashicon.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/appstore.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/iTunes.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/imusic.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/preview.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/mail.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/notes.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/messages.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/maps.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/ibooks.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/facetime.png"></a></li>
+				<li><a href="#"> <img src="./img/icon/launchpad.png"></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

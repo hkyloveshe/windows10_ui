@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>left_right_switch</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="layui/layui.js"></script>
+    <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="css/left_right.css">
+
+
+
+</head>
+<body>
+    <div class="switch_box">
+        <p class="title">请选择</p>
+        <div class="nav_tab">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li>最近</li>
+                    <li class="layui-this">单位</li>
+                    <li>角色</li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="clearfix">
+        <div class="nav_tab_container">
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="left_content">
+                        <div class="search_tree_box">
+                            <div class="search_box">
+                                <input type="text" placeholder="请输入部门名称">
+                                <button class="layui-btn layui-btn-normal layui-btn-sm">搜索</button>
+                            </div>
+                            <div id="treeDemo" class='ztree'></div>
+                        </div>
+                        <div class="tree_result">
+                            <!--<ul>-->
+                                <!--<li><a href="">张三<span>这里是对应的职位</span></a></li>-->
+                                <!--<li><a href="">李四<span>这里是对应的职位</span></a></li>-->
+                                <!--<li><a href="">李四<span>这里是对应的职位</span></a></li>-->
+                            <!--</ul>-->
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" style="background:#256d95;">
+                    <div class="left_content">
+                        <div class="search_tree_box">
+                            <div class="search_box"></div>
+                            <div class="tree_box"></div>
+                        </div>
+                        <div class="tree_result"></div>
+                    </div>
+                </div>
+                <div class="layui-tab-item" style="background:#eb7350;">
+                    <div class="left_content">
+                        <div class="search_tree_box">
+                            <div class="search_box"></div>
+                            <div class="tree_box"></div>
+                        </div>
+                        <div class="tree_result"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="left_right_switch_box">
+            <div class="left_right_btn">
+                <i class="layui-icon left_btn" id="transfer_right">&#xe602;</i>
+                <i class="layui-icon right_btn" id="transfer_left">&#xe603;</i>
+            </div>
+        </div>
+        <div class="right_content">
+            <div class="right_result">
+                <ul>
+                    <!--<li>人员1</li>-->
+                    <!--<li>人员2</li>-->
+                    <!--<li>人员3</li>-->
+                </ul>
+            </div>
+
+        </div>
+        </div>
+        <div class="bottom">
+            <div class="fr mr20">
+            <button class="default_check">确定</button><button class="cancel_check">取消</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-2.2.4.min.js"></script>
+    <script src="js/jquery.ztree.core.js"></script>
+    <script>
+        layui.use('element', function(){
+            var element = layui.element;
+            element.tab({
+                headerElem: 'ul.layui-tab-title>li' //指定tab头元素项
+                ,bodyElem: 'div.layui-tab-content>.layui-tab-item' //指定tab主体元素项
+            });
+        });
+    </script>
+    <script src="js/left_right.js"></script>
+</body>
+</html>
